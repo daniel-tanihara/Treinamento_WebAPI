@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using ProAgil.WebAPI.Data;
 using ProAgil.WebAPI.Model;
 
 namespace ProAgil.WebAPI.Controllers
@@ -12,61 +15,46 @@ namespace ProAgil.WebAPI.Controllers
     [Route("[controller]")]
     public class EventoController : ControllerBase
     {
-        private readonly ILogger<EventoController> _logger;
-
-        public EventoController(ILogger<EventoController> logger)
+        public DataContext _context { get; }
+        public EventoController(DataContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
+        //private readonly ILogger<EventoController> _logger;
+
+        // public EventoController(ILogger<EventoController> logger)
+        // {
+        //     _logger = logger;
+        // }
+
         [HttpGet]
-        public IEnumerable<Evento> Get()
+        public async Task<IActionResult> Get()
         {
-            return new Evento[] {
-                new Evento() 
-                {
-                    EventoId = 1,
-                    Tema = "Angular e .Net Core",
-                    Local = "São Paulo",
-                    Lote = "1o. Lote",
-                    QtdPessoas = 100,
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy")
-                },
-                new Evento() 
-                {
-                    EventoId = 2,
-                    Tema = "Angular e Suas Novidades",
-                    Local = "São Paulo",
-                    Lote = "2o. Lote",
-                    QtdPessoas = 150,
-                    DataEvento = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy")
-                }
-            };
+            try
+            {
+                var results = await _context.Eventos.ToListAsync();
+                return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erro no acesso ao banco de dados !");                
+            }
         }
 
         [HttpGet("{id}")]
-        public Evento Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return new Evento[] {
-                new Evento() 
-                {
-                    EventoId = 1,
-                    Tema = "Angular e .Net Core",
-                    Local = "São Paulo",
-                    Lote = "1o. Lote",
-                    QtdPessoas = 100,
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy")
-                },
-                new Evento() 
-                {
-                    EventoId = 2,
-                    Tema = "Angular e Suas Novidades",
-                    Local = "São Paulo",
-                    Lote = "2o. Lote",
-                    QtdPessoas = 150,
-                    DataEvento = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy")
-                }
-            }.FirstOrDefault(x => x.EventoId == id);
+            //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
+            try
+            {
+                var results = await _context.Eventos.FirstOrDefaultAsync(x => x.EventoId == id);
+                return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Erro no acesso ao banco de dados !");                
+            }
         }
     }
 }
