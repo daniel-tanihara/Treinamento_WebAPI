@@ -1,6 +1,6 @@
 Extensões para instalar no VS Code
 Angular Files
-Angular Languages Series
+Angular Language Service
 Angular v7 Snippets
 Angular2-Switcher
 Auto Rename Tag
@@ -12,7 +12,10 @@ C# IL Viewer
 Material Icon Theme
 Path Intellisense
 NuGet Package Manager
-
+NPM
+Live Server
+Prettier - Code formatter
+TSLint
 
 echo "# Treinamento" >> README.md
 git init
@@ -35,12 +38,34 @@ dotnet tool install --global dotnet-ef
 dotnet-ef migrations add init
 dotnet-ef database update
 
-
-
-
-
 C:\Program Files\dotnet\sdk\3.0.100\Sdks\Microsoft.NET.Sdk\targets\Microsoft.PackageDependencyResolution.targets(234,5): 
 Error: O pacote Microsoft.EntityFrameworkCore.Analyzers, versão 3.0.0, não foi encontrado. 
 Ele pode ter sido excluído desde a restauração do NuGet. 
 Caso contrário, a restauração do NuGet pode ter sido concluída apenas parcialmente, o que pode ter ocorrido devido a restrições de comprimento máximo do caminho.
 
+Instalar o Angular
+NPM
+https://nodejs.org
+
+npm install -g @angular/cli
+
+https://cli.angular.io/
+
+set-executionpolicy remotesigned no Powershell no modo administrador
+ng new ProAgil-App
+Entrar no projeto criado ProAgil-App e executar o comando ng serve -o
+
+
+Componente = Templates            + Classe 						+ Metadados
+			 * Views ou layout      Propriedades e Métodos
+			 * Criado com HTML		* Código para views           * Dados extras para o Angular
+			 * Inclui Binding e     * Geralmente em Typescript    * Definido com um decorator
+			   Diretivas			* Propriedade: Dados
+									* Métodos: Lógica
+
+ng serve -o
+
+
+bootstrap
+
+npm i --save bootstrap @fortawesome/fontawesome-free
